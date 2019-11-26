@@ -1,11 +1,17 @@
 import React from 'react';
+import * as THREE from 'three';
+import ThreeScene from '../three try/three try'
 import logo from './logo.svg';
 import './App.css';
+import MainView from '../main view/main view';
+import SceneHandler from '../sceneHandler/sceneHandler';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+    <SceneHandler/>
+      {/* <ThreeScene/> */}
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -18,7 +24,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }

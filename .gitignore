@@ -2,8 +2,13 @@
 
 # dependencies
 /node_modules
+/three try
+/data
 /.pnp
 .pnp.js
+.pcl
+.tif
+
 
 # testing
 /coverage

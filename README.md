@@ -1,4 +1,4 @@
-note: if you dont run it on a server, the `.cpl` data will be blaked by `CORS`.
+note: if you dont run it on a server, the `.cpl` data will be bloked by `CORS`.
 for more details visit [https://threejs.org/docs/#manual/en/introduction/How-to-run-things-locally].
 
 

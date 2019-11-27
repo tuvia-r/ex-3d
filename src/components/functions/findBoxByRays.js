@@ -2,6 +2,8 @@ import intersection from '../functions/linsIntersection';
 import * as THREE from 'three-full';
 
 const findBoxByRays = (rays)=>{
+
+    // get the vectors
     let rayObjectsA = rays.A.map(
                     value =>{ return {
                                     origin:value.ray.origin,
@@ -9,6 +11,7 @@ const findBoxByRays = (rays)=>{
                                 }
                             }
                         );
+
     let rayObjectsB = rays.B.map(
         value =>{ return {
                         origin:value.ray.origin,
@@ -16,9 +19,12 @@ const findBoxByRays = (rays)=>{
                     
                 }}
             );
+    
     let allX = [];
     let allY = [];
     let allZ = [];
+
+    //find all the intersections
     for(let i = 0; i< rayObjectsA.length;i++){
         for(let j = 0; j< rayObjectsB.length;j++){
             let originA = {...rayObjectsA[i].origin};
@@ -58,11 +64,9 @@ const findBoxByRays = (rays)=>{
         }
     }
    
-    allX = allX.filter(value => value < Infinity && value > -Infinity && value)
+    
     allX = allX.sort((a,b)=>a-b)
-    allY = allY.filter(value => value < Infinity && value > -Infinity && value)
     allY = allY.sort((a,b)=>a-b)
-    allZ = allZ.filter(value => value < Infinity && value > -Infinity && value)
     allZ = allZ.sort((a,b)=>a-b)
 
     let maxPoint = {x:allX[allX.length - 5],y:allY[allY.length - 5],z:allZ[allZ.length - 5]};

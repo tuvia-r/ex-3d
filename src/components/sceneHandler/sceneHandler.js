@@ -24,15 +24,22 @@ class SceneHandler extends React.Component{
     }
 
     componentDidMount(){
+        //* for testing its easier to just add a sphare:
+
+
         // let scene = this.state;
-        var sphereObject = new THREE.Mesh( 
-            new THREE.SphereGeometry(Math.PI /4), 
-            new THREE.MeshStandardMaterial( { color: '#433F81' }  )
-        );
-        sphereObject.position.x = 4
-        this.state.scene.add(sphereObject);
-        // let model = lodeModel('./CrossSelection2_11-31-01_Convert to TIFF.tif',this.state.scene)
-        // this.state.scene.add(model);
+        // var sphereObject = new THREE.Mesh( 
+        //     new THREE.SphereGeometry(Math.PI /4), 
+        //     new THREE.MeshStandardMaterial( { color: '#433F81' }  )
+        // );
+        // sphereObject.position.x = 4
+        // this.addToScene(sphereObject)
+
+        lodeModel('http://127.0.0.1:8000/pcl/pclASCII1.pcl',this.addToScene);
+    }
+
+    addToScene = (scene)=>{
+        this.state.scene.add(scene);
         this.setState({scene:this.state.scene});
 
     }
@@ -60,24 +67,30 @@ class SceneHandler extends React.Component{
     render(){
         return (
             <tr style={{top:30}}>
-                <th
-                ><ul><li><MainCanvesView scene={this.state.scene}
-                   style={{top:30}}
-                /></li></ul></th>
-                <th style={{top:0, position:'absolute'}}><ul //style={{top:0, position:'absolute'}}
-                >
-                <li><SidePlane 
-                    
-                    scene={this.state.scene}
-                    sendSelectedVertix= {(points)=>this.getDrawingRays(points,'A')}
-                /></li>
-                <li><SidePlane 
-                
-                    scene={this.state.scene}
-                    sendSelectedVertix= {(rays)=>this.getDrawingRays(rays,'B')}
-                /></li>
-                </ul></th>
-            </tr>
+                <th>
+                    <ul>
+                        <li>
+                            <MainCanvesView scene={this.state.scene} style={{top:30}}/>
+                        </li>
+                    </ul>
+                </th>
+                <th style={{top:0, position:'absolute'}}>
+                <ul>
+                    <li>
+                        <SidePlane 
+                        scene={this.state.scene}
+                        sendSelectedVertices= {(points)=>this.getDrawingRays(points,'A')}
+                        />
+                    </li>
+                    <li>
+                        <SidePlane 
+                        scene={this.state.scene}
+                        sendSelectedVertices= {(rays)=>this.getDrawingRays(rays,'B')}
+                        />
+                    </li>
+                </ul>
+            </th>
+        </tr>
         )
     }
 }

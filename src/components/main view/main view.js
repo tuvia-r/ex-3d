@@ -14,13 +14,13 @@ class MainCanvesView extends React.Component{
         this.state = {
             scene:props.scene
         }
-        this.drowCanves = null;
     }
 
     componentDidMount(){
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
+        // add a camera
         this.fov = 50; // AKA Field of View
         this.aspect = width / height;
         this.near = 0.1; // the near clipping plane
@@ -29,6 +29,7 @@ class MainCanvesView extends React.Component{
         this.camera.position.z = 15;
         this.camera.position.y = 2;
 
+        // add light
         const light = new THREE.HemisphereLight ( 0xffffff, 5.0 );
         light.position.set( 2, 2, 0 );
         this.state.scene.add( light );

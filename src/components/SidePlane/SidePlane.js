@@ -9,7 +9,7 @@ import './SidePlane.css'
 class SidePlane extends React.Component{
     static propTypes = {
         scene:PropTypes.object,
-        sendSelectedVertix:PropTypes.func
+        sendSelectedVertices:PropTypes.func
     }
 
     constructor(props){
@@ -18,6 +18,7 @@ class SidePlane extends React.Component{
             drawMode:false,
             scene:props.scene
         }
+        //ref of the drawings
         this.drowCanves = null;
         this.buttonStyle = {top:0,
             height:20,
@@ -33,6 +34,7 @@ class SidePlane extends React.Component{
         this.width = this.mount.offsetWidth;
         this.height = this.mount.offsetHeight;
 
+        //add a camera
         const fov = 50; // AKA Field of View
         const aspect = this.width / this.height;
         const near = 0.1; // the near clipping plane
@@ -41,9 +43,11 @@ class SidePlane extends React.Component{
         this.camera.position.z = 15;
         this.camera.position.y = 2;
 
+        // add a light
         const light = new THREE.HemisphereLight ( 0xffffff, 5.0 );
         light.position.set( 2, 2, 0 );
         this.state.scene.add( light );
+
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true })
         this.renderer.setClearColor('white')
@@ -82,6 +86,7 @@ class SidePlane extends React.Component{
     animate =() =>{
         requestAnimationFrame( this.animate );
 
+        // required if controls.enableDamping or controls.autoRotate are set to true
         this.controls.update();
 
         this.renderer.render( this.state.scene, this.camera );
@@ -89,22 +94,24 @@ class SidePlane extends React.Component{
 
 
     onDrawClick = () =>{
-        if (this.drowCanves){
-            if(this.drowCanves._selectedTool){
-              if(this.drowCanves._selectedTool.rect){
-                    let pointsObject = this.drowCanves._selectedTool.rect.aCoords;
-                    let keys = ['bl','br','tl','tr'];
-                    let points = [...keys.map(value=>pointsObject[value])];
-                  this.props.sendSelectedVertix(reyFromPoint(
-                        points,
-                        this.camera,
-                        this.mount.offsetWidth,
-                        this.mount.offsetHeight
-                        )
-                      );
-                    }
-                }
-            };
+      //convert the vertices points of the rectangle into raycasters,
+      // and send them to the scene handler.
+      if (this.drowCanves){
+          if(this.drowCanves._selectedTool){
+            if(this.drowCanves._selectedTool.rect){
+                  let pointsObject = this.drowCanves._selectedTool.rect.aCoords;
+                  let keys = ['bl','br','tl','tr'];
+                  let points = [...keys.map(value=>pointsObject[value])];
+                this.props.sendSelectedVertices(reyFromPoint(
+                      points,
+                      this.camera,
+                      this.mount.offsetWidth,
+                      this.mount.offsetHeight
+                      )
+                    );
+                  }
+              }
+          };
           this.setState({drawMode : !this.state.drawMode})
     }
 
@@ -124,7 +131,6 @@ class SidePlane extends React.Component{
 
     render(){
         return <div >
-
                     <div
                     style={{ width: (window.innerWidth/3), height: window.innerHeight/3 }}
                         ref={(mount) => { this.mount = mount }}

@@ -35,7 +35,10 @@ class SceneHandler extends React.Component{
         // sphereObject.position.x = 4
         // this.addToScene(sphereObject)
 
-        lodeModel('http://127.0.0.1:8000/pcl/pclASCII1.pcl',this.addToScene);
+
+        // the loader doas not wark localy
+        lodeModel('https://github.com/tuvia-r/ex-3d/raw/master/src/components/sceneHandler/pclASCII1.pcl',this.addToScene);
+        // if you dont run it on a server this will be blaked by CORS
     }
 
     addToScene = (scene)=>{

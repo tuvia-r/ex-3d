@@ -34,9 +34,9 @@ class SidePlane extends React.Component{
     getCameraPsition = (pos) =>{
       switch(pos){
         case 'XZ':
-          return{x:0,y:14,z:0}
+          return{x:0,y:16,z:0}
         case 'YZ':
-          return{x:14,y:0,z:0}
+          return{x:16,y:0,z:0}
         case 'XY':
           return{x:0,y:0,z:10}
         default :

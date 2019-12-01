@@ -89,14 +89,14 @@ const findBoxByRays = (rays)=>{
 
 
     if (allZ.length > allX.length){
-        let d = allZ.length - allX.length;
+        let d = allZ.length - allX.length -2;
         allZ.splice(0,d);
     }
 
     
 
     // get the max and min point
-    let maxPoint1 = {x:allX[allX.length - 1],y:allY[allY.length - 1],z:allZ[allZ.length - 3]};
+    let maxPoint1 = {x:allX[allX.length - 1],y:allY[allY.length - 1],z:allZ[allZ.length -1]};
     let minPoint1 = {x:allX[0] ,y:allY[0],z:allZ[0]};
     return {min:minPoint1,max:maxPoint1};
 }

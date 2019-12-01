@@ -1,5 +1,5 @@
 import * as THREE from 'three-full';
-// import {PLYLoader} from './PLYLoader'
+
 
 const lodeModel = (srcURL ,callBack) =>{
     var loader = new THREE.PCDLoader();
@@ -7,7 +7,6 @@ const lodeModel = (srcURL ,callBack) =>{
     srcURL,
     // called when the resource is loaded
     function ( mesh ) {
-      console.log('mesh',mesh)
       if(mesh){
         callBack(mesh);
       }
@@ -28,3 +27,4 @@ const lodeModel = (srcURL ,callBack) =>{
 }
 
 export default lodeModel;
+

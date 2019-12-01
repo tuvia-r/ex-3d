@@ -1,6 +1,6 @@
 import * as THREE from 'three-full';
 
-const makeBondingBox = (max,min) =>{
+const makeBondingBox = (min,max) =>{
     let geometryBox = new THREE.Geometry();
     geometryBox.vertices.push(
         //base
@@ -22,6 +22,8 @@ const makeBondingBox = (max,min) =>{
 
 
         //walls
+
+
         //wall1
         new THREE.Vector3( max.x, max.y, min.z ),
 
@@ -30,11 +32,13 @@ const makeBondingBox = (max,min) =>{
         //wall2
         new THREE.Vector3( max.x, max.y, min.z ),
         new THREE.Vector3( max.x, max.y, max.z),
+
         new THREE.Vector3( max.x,min.y,max.z),
 
         //wall3
         new THREE.Vector3( max.x, max.y, max.z),
         new THREE.Vector3( min.x,max.y,max.z ),
+
         new THREE.Vector3( min.x,min.y,max.z),
 
 
@@ -44,5 +48,8 @@ const makeBondingBox = (max,min) =>{
     let line = new THREE.Line( geometryBox, material );
     return line;
 }
+
+
+
 
 export default makeBondingBox;

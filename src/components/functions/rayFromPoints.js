@@ -14,7 +14,7 @@ const reyFromPoint = (Points,camera,offsetWidth,offsetHeight) =>{
 
 const getNormelizedPosition = (position,offsetWidth,offsetHeight) =>{
     let normCoardinates = {};
-    normCoardinates.x = (position.x  )/offsetWidth * 2 - 1;
+    normCoardinates.x = ((position.x  )/offsetWidth * 2 - 1);
     normCoardinates.y =  (((position.y )/ offsetHeight ) * 2 - 1)*(-1);
     return normCoardinates
 }

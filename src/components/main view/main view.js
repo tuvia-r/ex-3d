@@ -26,7 +26,7 @@ class MainCanvesView extends React.Component{
         this.near = 0.1; // the near clipping plane
         this.far = 1000; // the far clipping plane
         this.camera = new THREE.PerspectiveCamera( this.fov, this.aspect, this.near, this.far );
-        this.camera.position.z = 15;
+        this.camera.position.z = 25;
         this.camera.position.y = 2;
 
         // add light

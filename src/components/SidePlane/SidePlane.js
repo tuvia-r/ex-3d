@@ -9,6 +9,7 @@ import './SidePlane.css'
 class SidePlane extends React.Component{
     static propTypes = {
         scene:PropTypes.object,
+        projection:PropTypes.string.isRequired,
         sendSelectedVertices:PropTypes.func
     }
 
@@ -22,7 +23,7 @@ class SidePlane extends React.Component{
         this.drowCanves = null;
         this.buttonStyle = {top:0,
             height:20,
-            width:40,
+            width:60,
             left:0,
             backgroundColor:'black',
             color:'white',
@@ -30,18 +31,33 @@ class SidePlane extends React.Component{
           }
     }
 
+    getCameraPsition = (pos) =>{
+      switch(pos){
+        case 'XZ':
+          return{x:0,y:14,z:0}
+        case 'YZ':
+          return{x:14,y:0,z:0}
+        case 'XY':
+          return{x:0,y:0,z:10}
+        default :
+         return console.warn('projection not legal');
+      }
+    }
+
     componentDidMount(){
         this.width = this.mount.offsetWidth;
         this.height = this.mount.offsetHeight;
 
         //add a camera
-        const fov = 50; // AKA Field of View
+        const fov = 90; // AKA Field of View
         const aspect = this.width / this.height;
         const near = 0.1; // the near clipping plane
         const far = 1000; // the far clipping plane
         this.camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-        this.camera.position.z = 15;
-        this.camera.position.y = 2;
+        let cameraPos = this.getCameraPsition(this.props.projection);
+        this.camera.position.z = cameraPos.z;
+        this.camera.position.y = cameraPos.y;
+        this.camera.position.x = cameraPos.x;
 
         // add a light
         const light = new THREE.HemisphereLight ( 0xffffff, 5.0 );
@@ -56,9 +72,14 @@ class SidePlane extends React.Component{
 
         this.mount.appendChild(this.renderer.domElement)
 
+
+        // for some resone the view looks beter after getting controls in the scene
         this.controls = createControls(this.camera,this.mount);
+        this.controls.dispose()
 
         this.start()
+        this.setState({drawMode : true})
+
     }
 
     componentWillUnmount(){
@@ -86,8 +107,7 @@ class SidePlane extends React.Component{
     animate =() =>{
         requestAnimationFrame( this.animate );
 
-        // required if controls.enableDamping or controls.autoRotate are set to true
-        this.controls.update();
+
 
         this.renderer.render( this.state.scene, this.camera );
         }
@@ -112,8 +132,9 @@ class SidePlane extends React.Component{
                   }
               }
           };
-          this.setState({drawMode : !this.state.drawMode})
+          // this.setState({drawMode : !this.state.drawMode})
     }
+
 
 
     draw = () =>{ 
@@ -133,10 +154,10 @@ class SidePlane extends React.Component{
         return <div >
                     <div
                     style={{ width: (window.innerWidth/3), height: window.innerHeight/3 }}
-                        ref={(mount) => { this.mount = mount }}
+                        ref={(mount) => { this.mount = mount }} 
                     />
                     {this.draw()}
-                    <button onClick={this.onDrawClick} style={this.buttonStyle}>drow</button>
+                    <button onClick={this.onDrawClick} style={this.buttonStyle}>sumbit</button>
                 </div>
     }
 

@@ -15,6 +15,7 @@ class SceneHandler extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            mainScene:new THREE.Scene(),
             scene: new THREE.Scene()
         }
         this.rays = {
@@ -27,7 +28,7 @@ class SceneHandler extends React.Component{
         //* for testing its easier to just add a sphare:
 
 
-        // let scene = this.state;
+
         // var sphereObject = new THREE.Mesh( 
         //     new THREE.SphereGeometry(Math.PI /4), 
         //     new THREE.MeshStandardMaterial( { color: '#433F81' }  )
@@ -36,15 +37,26 @@ class SceneHandler extends React.Component{
         // this.addToScene(sphereObject)
 
 
-        // the loader doas not wark localy
-        lodeModel('https://github.com/tuvia-r/ex-3d/raw/master/src/components/sceneHandler/pclASCII1.pcl',this.addToScene);
+        //the loader doas not wark localy
+        lodeModel('https://github.com/tuvia-r/ex-3d/raw/master/src/components/sceneHandler/pclASCII009.pcl',this.addToScene1);
+        lodeModel('https://github.com/tuvia-r/ex-3d/raw/master/src/components/sceneHandler/pclASCII009.pcl',this.addToScene2);
         // if you dont run it on a server this will be blaked by CORS
     }
 
-    addToScene = (scene)=>{
-        this.state.scene.add(scene);
-        this.setState({scene:this.state.scene});
+    addToScene1 = (scene)=>{
 
+        this.setState({
+            mainScene:this.state.mainScene.add(scene),
+
+        });
+    }
+
+    addToScene2 = (scene)=>{
+       
+        this.setState({
+            scene:this.state.scene.add(scene)
+        });
+       
     }
 
     
@@ -56,9 +68,9 @@ class SceneHandler extends React.Component{
         if (this.rays.A.length > 0 && this.rays.B.length > 0){
             const boxData = findBoxByRays(this.rays,this.state.scene);
             if (boxData){
-                const box = makeBondingBox(boxData.min,boxData.max);
-                this.state.scene.add(box);
-                this.setState({scene:this.state.scene});
+                const box = makeBondingBox(boxData.max,boxData.min);
+                this.state.mainScene.add(box);
+                this.setState({mainScene:this.state.mainScene});
                 this.rays.A = [];
                 this.rays.B = []
             }
@@ -73,7 +85,7 @@ class SceneHandler extends React.Component{
                 <th>
                     <ul>
                         <li>
-                            <MainCanvesView scene={this.state.scene} style={{top:30}}/>
+                            <MainCanvesView scene={this.state.mainScene} style={{top:30}}/>
                         </li>
                     </ul>
                 </th>
@@ -83,12 +95,14 @@ class SceneHandler extends React.Component{
                         <SidePlane 
                         scene={this.state.scene}
                         sendSelectedVertices= {(points)=>this.getDrawingRays(points,'A')}
+                        projection={'XZ'}
                         />
                     </li>
                     <li>
                         <SidePlane 
                         scene={this.state.scene}
                         sendSelectedVertices= {(rays)=>this.getDrawingRays(rays,'B')}
+                        projection={'YZ'}
                         />
                     </li>
                 </ul>

@@ -4,6 +4,7 @@
 /node_modules
 /three try
 /data
+/build
 /.pnp
 .pnp.js
 .pcl

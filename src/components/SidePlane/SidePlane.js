@@ -20,7 +20,7 @@ class SidePlane extends React.Component{
             scene:props.scene
         }
         //ref of the drawings
-        this.drowCanves = null;
+        // this.drowCanves = null;
         this.buttonStyle = {top:0,
             height:20,
             width:60,
@@ -29,6 +29,9 @@ class SidePlane extends React.Component{
             color:'white',
 
           }
+          this.addedCanvesEv = false;
+          // this.canvesListener = setInterval(()=>{this.onDrawClick()},100);
+
     }
 
     getCameraPsition = (pos) =>{
@@ -61,7 +64,7 @@ class SidePlane extends React.Component{
 
         // add a light
         const light = new THREE.HemisphereLight ( 0xffffff, 5.0 );
-        light.position.set( 2, 2, 0 );
+        light.position.set( cameraPos.x +5, cameraPos.y+5, cameraPos.z +5);
         this.state.scene.add( light );
 
 
@@ -88,9 +91,7 @@ class SidePlane extends React.Component{
       }
 
 
-      componentWillReceiveProps(props){
-          this.setState({sence:props.scene})
-      }
+     
 
     start = () => {
         if (!this.frameId) {
@@ -111,6 +112,12 @@ class SidePlane extends React.Component{
 
         this.renderer.render( this.state.scene, this.camera );
         }
+
+    componentDidUpdate(){
+      if (!this.addedCanvesEv)
+      this.drowCanves._fc.__eventListeners['mouse:up'].push(this.onDrawClick);
+      this.addedCanvesEv = true;
+    }
 
 
     onDrawClick = () =>{
@@ -139,7 +146,6 @@ class SidePlane extends React.Component{
 
     draw = () =>{ 
       return this.state.drawMode && <SketchField style={{width:(window.innerWidth/3)
-      ,height:(window.innerHeight/3) + 'px'
       ,position:'absolute',
       top:this.mount.offsetTop}}
       tool={Tools.Rectangle}
@@ -147,6 +153,7 @@ class SidePlane extends React.Component{
       lineWidth={1}
       ref={(drow) => { this.drowCanves = drow }}
       height ={(window.innerHeight/3) + 'px'}
+    
       />}
 
 
@@ -154,10 +161,11 @@ class SidePlane extends React.Component{
         return <div >
                     <div
                     style={{ width: (window.innerWidth/3), height: window.innerHeight/3 }}
-                        ref={(mount) => { this.mount = mount }} 
+                        ref={(mount) => { this.mount = mount }}
+
                     />
                     {this.draw()}
-                    <button onClick={this.onDrawClick} style={this.buttonStyle}>sumbit</button>
+                    {/* <button onClick={this.onDrawClick} style={this.buttonStyle}>sumbit</button> */}
                 </div>
     }
 

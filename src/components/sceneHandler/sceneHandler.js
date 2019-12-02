@@ -94,10 +94,11 @@ class SceneHandler extends React.Component{
                     <li>
                         <SidePlane 
                         scene={this.state.scene}
-                        sendSelectedVertices= {(points)=>this.getDrawingRays(points,'A')}
+                        sendSelectedVertices= {(rays)=>this.getDrawingRays(rays,'A')}
                         projection={'XZ'}
                         />
                     </li>
+                    <li></li>
                     <li>
                         <SidePlane 
                         scene={this.state.scene}

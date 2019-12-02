@@ -67,7 +67,7 @@ const findBoxByRays = (rays)=>{
         
     }
 
-
+  
    
     
     allX = allX.sort((a,b)=>a-b)
@@ -77,27 +77,26 @@ const findBoxByRays = (rays)=>{
 
     // filter some noise
 
-    let toFilter = Math.round(allX[0])
-    allX = allX.filter(value => {if (value==0)return 0; return Math.round(value)!= toFilter && value});
-
-    toFilter = Math.round(allY[0])
-    allY = allY.filter(value =>  {if (value==0)return 0; return Math.round(value)!= toFilter && value});
-
-    toFilter = Math.round(allZ[allZ.length-1])
-    allZ = allZ.filter(value =>  {if (value==0)return 0; return Math.round(value)!= toFilter && value});
+    
+    allX = filterLastEl(allX);
+    allY = filterLastEl(allY);
+    allZ = filterLastEl(allZ);
 
 
-
-    if (allZ.length > allX.length){
-        let d = allZ.length - allX.length -2;
-        allZ.splice(0,d);
-    }
+    allY  = filterfirstEl(allY)
 
     
 
+
+
+
+
+    
+
+
     // get the max and min point
-    let maxPoint1 = {x:allX[allX.length - 1],y:allY[allY.length - 1],z:allZ[allZ.length -1]};
-    let minPoint1 = {x:allX[0] ,y:allY[0],z:allZ[0]};
+    let maxPoint1 = {x:allX[allX.length - 1] * 0.75,y:allY[allY.length - 1],z:allZ[allZ.length -1] * 0.9};
+    let minPoint1 = {x:allX[0] * 0.75,y:allY[0],z:allZ[0] * 0.9};
     return {min:minPoint1,max:maxPoint1};
 }
 
@@ -110,6 +109,25 @@ const getSecondPoint = (vec,dist) =>{
     let y = vec.origin.y +(dist*vec.direction.y);
     let z = vec.origin.z +(dist*vec.direction.z);
     return{x:x,y:y,z:z};
+}
+
+const filterLastEl = (list)=>{
+    if (list.length > 8){
+        let toFilter = list[list.length-1];
+        if (toFilter == 0) return list;
+        return list.filter(value =>  {if (value==0)return 0;
+             return Math.abs( value - toFilter) >0.01 && value});
+    }
+    return list;
+}
+
+const filterfirstEl = (list)=>{
+    if (list.length > 8){
+        let toFilter = list[0];
+        return list.filter(value =>  {if (value==0)return 0;
+             return Math.abs( value - toFilter) >0.01 && value});
+    }
+    return list;
 }
 
 
